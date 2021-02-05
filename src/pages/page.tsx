@@ -7,6 +7,8 @@ import DateDisplay from '../common/date';
 import { pagesContext } from '../context/PagesContext';
 import Thought from '../common/thought';
 import { Thought as ThoughtModel } from '../models/thought';
+import AddThought from '../common/addThought';
+import { Pages } from '../models/pages';
 
 const Page = () => {
 	const history = useHistory();
@@ -14,27 +16,55 @@ const Page = () => {
 	const context = React.useContext(pagesContext);
 	const today = format(new Date(), DateString);
 	let date: string;
-	if (params.date === null || params.date === 'today') {
+	let currentPage: Pages;
+	if (!params.date || params.date === 'today') {
 		date = today;
 	} else {
-		const paramDate = new Date(params.date);
-		date = format(paramDate, DateString);
+		try {
+			const paramDate = new Date(params.date);
+			date = format(paramDate, DateString);
+		} catch {
+			history.push('/today');
+		}
 	}
-	const currentPage = context.pages.find((x) => x.date === date);
-	if (!currentPage && date !== today) history.push('/today');
-	if (!currentPage && date === today) {
-		// will this trigger a re-render?
-		context.pages.push({ date, thoughts: [{} as ThoughtModel] });
+	React.useEffect(() => {}, [context.pages]);
+
+	if (context.pages !== undefined) {
+		currentPage = context?.pages?.find((x) => x.date === date);
+		console.log('currentPage', currentPage);
+		if (!currentPage && date !== today) history.push('/today');
+		if (!currentPage && date === today) {
+			// will this trigger a re-render?
+			context.setPage(date, [...[]]);
+			context.savePages();
+		}
 	}
+
+	const thoughts = currentPage && [...currentPage?.thoughts];
+	if (!currentPage) return null;
 	return (
 		<PageSection>
 			<DateWrapper>
-				<DateDisplay />
+				<DateDisplay date={date} />
 			</DateWrapper>
 			<ThoughtsWrapper>
-				{currentPage.thoughts.map((thought, i) => {
-					return <Thought type={thought.type} value={thought.value} today={today} index={i} editing />;
+				{thoughts.map((thought, i) => {
+					console.log(thought.value, i);
+					return (
+						<>
+							<AddThought index={i} date={date} key={i} />
+							<Thought
+								type={thought.type}
+								value={thought.value}
+								today={today}
+								index={i}
+								editing={date === today}
+								key={i}
+							/>
+						</>
+					);
 				})}
+				<AddThought index={currentPage.thoughts.length} date={date} />
 			</ThoughtsWrapper>
 		</PageSection>
 	);

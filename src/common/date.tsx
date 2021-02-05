@@ -3,20 +3,17 @@ import { format } from 'date-fns';
 import * as React from 'react';
 
 const DateDisplay = (props: Props) => {
-	const today = new Date();
-	const date = props.date ?? today;
-
-	return <DateWrapper>{format(date, 'do MMM y')}</DateWrapper>;
+	return <DateWrapper>{typeof props.date === 'string' ? props.date : format(props.date, 'do MMM y')}</DateWrapper>;
 };
 
 export default DateDisplay;
 
 interface Props {
-	date?: Date;
+	date?: Date | string;
 }
 
 DateDisplay.defaultProps = {
-	date: null
+	date: new Date()
 };
 
 const DateWrapper = styled.div`

@@ -4,12 +4,12 @@ const pagesKey = 'pages';
 
 export const getPagesFromStorage = () => {
 	const rawPageData = localStorage.getItem(pagesKey);
-	if (!rawPageData) return {} as Pages[];
+	if (!rawPageData) return [{}] as Pages[];
 	try {
 		return JSON.parse(rawPageData);
 	} catch (e) {
 		console.error(`Failed to parse JSON from storage: ${rawPageData}`);
-		return {} as Pages[];
+		return [{}] as Pages[];
 	}
 };
 
