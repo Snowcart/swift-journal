@@ -49,7 +49,6 @@ const Page = () => {
 			</DateWrapper>
 			<ThoughtsWrapper>
 				{thoughts.map((thought, i) => {
-					console.log(thought.value, i);
 					return (
 						<>
 							<AddThought index={i} date={date} key={i} />
@@ -80,7 +79,13 @@ const PageSection = styled.section`
 	margin: auto;
 	width: 100%;
 	height: 100%;
+	overflow: auto;
+	overflow-x: hidden;
 	background-color: white;
+	scrollbar-width: none; // Firefox
+	::-webkit-scrollbar {
+		display: none;
+	}
 	@media (min-width: 816px) {
 		width: 816px;
 	}

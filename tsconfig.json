@@ -13,5 +13,6 @@
 		"sourceMap": true,
 		"target": "es6"
 	},
-	"exclude": ["node_modules", "typings", "wwwroot"]
+	"exclude": ["node_modules", "typings", "wwwroot"],
+	"include": ["src/components", "src/custom.d.ts"]
 }

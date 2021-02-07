@@ -10,10 +10,8 @@ export const usePagesContext = (): PagesContext => {
 	const [pages, setPagesState] = useState<Pages[]>();
 
 	React.useEffect(() => {
-		console.log('fromState', pages);
 		if (!pages) {
 			const pagesFromStorage = getPagesFromStorage();
-			console.log('fromStorage', pagesFromStorage);
 			if (pagesFromStorage) setPagesState([...pagesFromStorage]);
 		}
 	}, [pages]);

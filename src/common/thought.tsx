@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import TextareaAutosize from 'react-textarea-autosize';
 import { pagesContext } from '../context/PagesContext';
 
 const Thought = ({ type, value, editing, today, index }: Props) => {
@@ -11,9 +12,15 @@ const Thought = ({ type, value, editing, today, index }: Props) => {
 			context.setPage(today, [...context.pages.find((x) => x.date === today).thoughts]);
 		}
 	};
+
 	if (!editing) {
 		if (type === 'title') return <TitleThought>{value}</TitleThought>;
-		if (type === 'text') return <TextThought>{value}</TextThought>;
+		if (type === 'text')
+			return (
+				<EditTextWrapper>
+					<TextThought>{value}</TextThought>
+				</EditTextWrapper>
+			);
 	}
 
 	if (type === 'title') {
@@ -21,7 +28,11 @@ const Thought = ({ type, value, editing, today, index }: Props) => {
 	}
 
 	if (type === 'text') {
-		return <EditTextThought onBlur={() => context.savePages()} onChange={updatePage} value={value} />;
+		return (
+			<EditTextWrapper>
+				<EditTextThought onBlur={() => context.savePages()} onChange={updatePage} value={value} />
+			</EditTextWrapper>
+		);
 	}
 	return null;
 };
@@ -36,23 +47,36 @@ interface Props {
 	index: number;
 }
 
-const EditTitleThought = styled.input`
-	border: none;
-	font-size: 24px;
-	margin: 0;
+const EditThought = styled(TextareaAutosize)`
 	width: 100%;
-	overflow: auto;
-	text-align: center;
+	overflow: hidden;
+	outline: none;
+	resize: none;
+	border: none;
+	max-width: 816px;
 	:focus {
-		border: solid 1px rgba(0, 225, 255, 0.1) !important;
+		outline: none;
 	}
 `;
+const EditTitleThought = styled(EditThought)`
+	font-size: 24px;
+	margin: 0;
+	text-align: center;
+`;
 
-const EditTextThought = styled.textarea`
+const EditTextWrapper = styled.div`
 	width: 100%;
+	max-width: vw;
+`;
+
+const EditTextThought = styled(EditThought)`
 	min-height: 30px;
+	height: auto;
 	font-size: 16px;
-	max-width: 816px;
+	@media (min-width: 816px) {
+		width: 90%;
+		margin: 0 5%;
+	}
 `;
 
 const TitleThought = styled.h2`
