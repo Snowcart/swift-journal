@@ -40,7 +40,6 @@ jobs:
 
       - name: Production build
         run: |
-          unset: CI
           yarn build
 
       - name: Deploy
