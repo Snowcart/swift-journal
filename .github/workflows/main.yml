@@ -22,7 +22,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [12.x]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -34,13 +34,10 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@v2
 
-      - name: Install packages
-        run: |
-          yarn install
-
       - name: Production build
         run: |
-          yarn build
+          npm install
+          npm run webpack-prod
 
       - name: Deploy
         uses: jakejarvis/s3-sync-action@master
