@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const AppManifestWebpackPlugin = require('app-manifest-webpack-plugin');
 
 module.exports = {
 	entry: { main: path.resolve(__dirname, './src/index.tsx') },
@@ -26,10 +27,23 @@ module.exports = {
 			alwaysWriteToDisk: true,
 			hash: true
 		}),
-		new HtmlWebpackHarddiskPlugin()
+		new HtmlWebpackHarddiskPlugin(),
+		new AppManifestWebpackPlugin({
+			logo: path.resolve(__dirname, './images/my-logo.png'),
+			inject: true,
+			config: {
+				appName: 'SWiFT Journal',
+				background: '#fff',
+				theme_color: '#fff',
+				display: 'standalone',
+				orientation: 'portrait',
+				start_url: '/today',
+				version: '1.0'
+			}
+		})
 	],
 	resolve: {
-		extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
+		extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.json'],
 		alias: {
 			react: path.resolve(__dirname, './node_modules/react')
 		}
