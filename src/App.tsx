@@ -4,7 +4,6 @@ import { createGlobalStyle } from 'styled-components';
 import { pagesContext } from './context/PagesContext';
 import { usePagesContext } from './hooks/usePagesContext';
 import Page from './pages/page';
-import Table from './pages/table';
 
 export default () => {
 	const GlobalStyle = createGlobalStyle`
