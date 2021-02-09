@@ -9,6 +9,7 @@ import Thought from '../common/thought';
 import { Thought as ThoughtModel } from '../models/thought';
 import AddThought from '../common/addThought';
 import { Pages } from '../models/pages';
+import Calendar from './calendar';
 // TODO: buddy clean up this page
 const Page = () => {
 	const history = useHistory();
@@ -42,6 +43,7 @@ const Page = () => {
 	if (!currentPage) return null;
 	return (
 		<PageSection>
+			<Calendar />
 			<DateWrapper>
 				<DateDisplay date={date} />
 			</DateWrapper>
