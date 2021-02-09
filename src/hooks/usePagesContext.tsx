@@ -32,9 +32,20 @@ export const usePagesContext = (): PagesContext => {
 		[pages]
 	);
 
+	const newPage = React.useCallback(
+		(date: string) => {
+			const pagesFromStorage = getPagesFromStorage();
+			const copyOfPages = [...pagesFromStorage];
+			copyOfPages.push({ date, thoughts: [] });
+			setPagesState([...copyOfPages]);
+			savePages();
+		},
+		[pages]
+	);
+
 	const savePages = React.useCallback((): void => {
 		setPagesInStorage(pages);
 	}, [pages]);
 
-	return { pages, setPage, savePages };
+	return { pages, setPage, newPage, savePages };
 };

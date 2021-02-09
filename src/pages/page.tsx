@@ -9,7 +9,7 @@ import Thought from '../common/thought';
 import { Thought as ThoughtModel } from '../models/thought';
 import AddThought from '../common/addThought';
 import { Pages } from '../models/pages';
-
+// TODO: buddy clean up this page
 const Page = () => {
 	const history = useHistory();
 	const params = useParams<{ date: string }>();
@@ -27,16 +27,14 @@ const Page = () => {
 			history.push('/today');
 		}
 	}
-	React.useEffect(() => {}, [context.pages]);
+	const isEditing = date === today;
 
 	if (context.pages !== undefined) {
 		currentPage = context?.pages?.find((x) => x.date === date);
-		console.log('currentPage', currentPage);
 		if (!currentPage && date !== today) history.push('/today');
 		if (!currentPage && date === today) {
-			// will this trigger a re-render?
-			context.setPage(date, [...[]]);
-			context.savePages();
+			// create new page
+			context.newPage(date);
 		}
 	}
 
@@ -51,33 +49,29 @@ const Page = () => {
 				{thoughts.map((thought, i) => {
 					return (
 						<>
-							<AddThought index={i} date={date} key={i} />
+							{isEditing && <AddThought index={i} date={date} key={`addThought-${i}`} />}
 							<Thought
 								type={thought.type}
 								value={thought.value}
 								today={today}
 								index={i}
 								editing={date === today}
-								key={i}
+								key={`thought-${i}`}
 							/>
 						</>
 					);
 				})}
-				<AddThought index={currentPage.thoughts.length} date={date} />
+				{isEditing && <AddThought index={currentPage.thoughts.length} date={date} />}
 			</ThoughtsWrapper>
 		</PageSection>
 	);
 };
 
-interface Props {
-	pageDate?: string;
-}
-
 export default Page;
 
 const PageSection = styled.section`
 	margin: auto;
-	width: 100%;
+	width: 95%;
 	height: 100%;
 	overflow: auto;
 	overflow-x: hidden;

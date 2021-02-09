@@ -59,6 +59,7 @@ interface Props {
 
 const AddThoughtIcon = styled.div`
 	float: right;
+	margin-right: 15px;
 `;
 
 const AddThoughtPopupWrapper = styled.div`
@@ -85,7 +86,7 @@ const AddThoughtPopup = styled.div`
 	left: 0;
 	right: 0;
 	width: 100%;
-	height: 120px;
+	height: 220px;
 	background-color: grey;
 	z-index: 12;
 	border-radius: 8px 8px 0 0;

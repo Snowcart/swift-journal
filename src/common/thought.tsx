@@ -14,7 +14,12 @@ const Thought = ({ type, value, editing, today, index }: Props) => {
 	};
 
 	if (!editing) {
-		if (type === 'title') return <TitleThought>{value}</TitleThought>;
+		if (type === 'title')
+			return (
+				<EditTextWrapper>
+					<TitleThought>{value}</TitleThought>
+				</EditTextWrapper>
+			);
 		if (type === 'text')
 			return (
 				<EditTextWrapper>
@@ -24,7 +29,11 @@ const Thought = ({ type, value, editing, today, index }: Props) => {
 	}
 
 	if (type === 'title') {
-		return <EditTitleThought onBlur={() => context.savePages()} onChange={updatePage} value={value} />;
+		return (
+			<EditTextWrapper>
+				<EditTitleThought onBlur={() => context.savePages()} onChange={updatePage} value={value} />
+			</EditTextWrapper>
+		);
 	}
 
 	if (type === 'text') {
@@ -73,13 +82,14 @@ const EditTextThought = styled(EditThought)`
 	min-height: 30px;
 	height: auto;
 	font-size: 16px;
-	@media (min-width: 816px) {
-		width: 90%;
-		margin: 0 5%;
-	}
 `;
 
 const TitleThought = styled.h2`
-	margin: auto;
+	font-size: 24px;
+	margin: 0;
+	text-align: center;
+	overflow-wrap: break-word;
 `;
-const TextThought = styled.p``;
+const TextThought = styled.p`
+	overflow-wrap: break-word;
+`;

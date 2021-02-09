@@ -14,7 +14,10 @@ export default () => {
 	body { 
 		height: 100%;
 		margin: 0;
-		background-color: rgb(254,253,251);
+		background-color: white;
+		@media(min-width: 816px) {
+			background-color: rgb(254,253,251);
+		}
 	}
 	#app { 
 		height: 100%;
